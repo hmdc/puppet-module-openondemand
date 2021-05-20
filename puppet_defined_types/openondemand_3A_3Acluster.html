@@ -6,7 +6,7 @@
 <title>
   Defined Type: openondemand::cluster
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -154,7 +154,7 @@
         <span class='name'>job_adapter</span>
       
       
-        <span class='type'>(<tt>Optional[Enum['torque','slurm','lsf','pbspro','sge','linux_host']]</tt>)</span>
+        <span class='type'>(<tt>Optional[Enum['torque','slurm','lsf','pbspro','sge','linux_host','kubernetes']]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -454,6 +454,97 @@
       
       
         <span class='type'>(<tt>Optional[Stdlib::Absolutepath]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>job_config_file</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>job_username_prefix</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>job_namespace_prefix</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>job_all_namespaces</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>job_server</span>
+      
+      
+        <span class='type'>(<tt>Optional[Openondemand::K8_server]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>job_mounts</span>
+      
+      
+        <span class='type'>(<tt>Array[Openondemand::K8_mount]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>job_auth</span>
+      
+      
+        <span class='type'>(<tt>Optional[Openondemand::K8_auth]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -765,13 +856,6 @@
         <pre class="lines">
 
 
-56
-57
-58
-59
-60
-61
-62
 63
 64
 65
@@ -843,10 +927,32 @@
 131
 132
 133
-134</pre>
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/cluster.pp', line 56</span>
+        <pre class="code"><span class="info file"># File 'manifests/cluster.pp', line 63</span>
 
 define openondemand::cluster (
   String $cluster_title = $name,
@@ -854,7 +960,7 @@ define openondemand::cluster (
   Boolean $hidden = false,
   Array[Openondemand::Acl] $acls = [],
   Optional[Stdlib::Host] $login_host = undef,
-  Optional[Enum[&#39;torque&#39;,&#39;slurm&#39;,&#39;lsf&#39;,&#39;pbspro&#39;,&#39;sge&#39;,&#39;linux_host&#39;]] $job_adapter = undef,
+  Optional[Enum[&#39;torque&#39;,&#39;slurm&#39;,&#39;lsf&#39;,&#39;pbspro&#39;,&#39;sge&#39;,&#39;linux_host&#39;,&#39;kubernetes&#39;]] $job_adapter = undef,
   Optional[String] $job_cluster = undef,
   Optional[Stdlib::Host] $job_host = undef,
   Optional[Stdlib::Absolutepath] $job_lib = undef,
@@ -878,6 +984,15 @@ define openondemand::cluster (
   Optional[String] $job_singularity_image = undef,
   Optional[Boolean] $job_strict_host_checking = undef,
   Optional[Stdlib::Absolutepath] $job_tmux_bin = undef,
+  # Kubernetes
+  Optional[String[1]] $job_config_file = undef,
+  Optional[String] $job_username_prefix = undef,
+  Optional[String] $job_namespace_prefix = undef,
+  Boolean $job_all_namespaces = false,
+  Optional[Openondemand::K8_server] $job_server = undef,
+  Array[Openondemand::K8_mount] $job_mounts = [],
+  Optional[Openondemand::K8_auth] $job_auth = undef,
+  # END Kubernetes
   Optional[Enum[&#39;moab&#39;]] $scheduler_type = undef,
   Optional[Stdlib::Host] $scheduler_host = undef,
   Optional[Stdlib::Absolutepath] $scheduler_bin = undef,
@@ -912,6 +1027,12 @@ define openondemand::cluster (
   if $grafana_host {
     if $grafana_dashboard_name == undef or $grafana_dashboard_uid == undef or $grafana_dashboard_panels == undef or $grafana_labels == undef {
       fail(&#39;Must define grafana_dashboard_name, grafana_dashboard_uid, grafana_dashboard_panels and grafana_labels&#39;)
+    }
+  }
+
+  if $job_adapter == &#39;kubernetes&#39; {
+    if !$job_server {
+      fail(&#39;Must define job_server when job_adapter is kubernetes&#39;)
     }
   }
 

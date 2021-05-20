@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Data Type: Openondemand::Batch_connect
+  Puppet Task: nginx_stage
   
     &mdash; Documentation by YARD 0.9.26
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
 <script type="text/javascript">
-  pathId = "puppet_data_type_aliases::Openondemand::Batch_connect";
+  pathId = "puppet_tasks::nginx_stage";
   relpath = '../';
 </script>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="../puppet_data_type_list.html?1"></iframe>
+      <iframe id="nav" src="../puppet_task_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -36,10 +36,10 @@
       <div id="header">
         <div id="menu">
   
-    <a href="../_index.html">Index (O)</a> &raquo;
-    <span class='title'><span class='object_link'>Puppet Data Type Aliases</span></span>
+    <a href="../_index.html">Index (n)</a> &raquo;
+    <span class='title'><span class='object_link'>Puppet Tasks</span></span>
      &raquo; 
-    <span class="title">Openondemand::Batch_connect</span>
+    <span class="title">nginx_stage</span>
   
 </div>
 
@@ -59,59 +59,71 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Puppet Data Type Alias: Openondemand::Batch_connect</h1>
+      <div id="content"><h1>Puppet Task: nginx_stage</h1>
 <div class="box_info">
   <dl>
     <dt>Defined in:</dt>
     <dd>
-      types/batch_connect.pp
+      tasks/nginx_stage.json,<br />
+      tasks/nginx_stage.rb<br/></div>
     </dd>
   </dl>
 </div>
-
-<h2>Overview</h2>
-<div class="docstring">
-  <div class="discussion">
-    
-<p>Defines cluster config batch_connect values</p>
-
-  </div>
-</div>
-
-<div class="tags">
-  <p class="tag_title">Alias of</p>
-  <div class="docstring">
-    <div class="discussion">
-      <pre class="code"><span class="info">Struct[{
-                                    'script_wrapper' => String,
-                                    }]</span></pre>
-    </div>
-  </div>
-</div>
-
-
-
 <div class="tags">
   
 
 
-</div><div class="method_details_list">
-  <table class="source_code">
-    <tr>
-      <td>
-        <pre class="lines">
-
-
-</pre>
-      </td>
-      <td>
-        <pre class="code"><span class="info file"># File 'types/batch_connect.pp', line 2</span>
-
-</pre>
-      </td>
-    </tr>
-  </table>
+</div><h2>Overview</h2>
+<div class="docstring">
+  <div class="discussion">
+    Run nginx_stage commands
+  </div>
 </div>
+
+<div class="tags">
+    <p><strong>Supports noop?</strong> false</p>
+</div>
+
+
+<div class="tags">
+  <p class="tag_title">Parameters</p>
+  <ul>
+    
+    <li>
+        <span class="name">command</span>
+        <span class="type">
+            <tt>(Enum[nginx_clean,nginx_list])</tt>
+        </span>
+         &mdash; nginx_stage command to execute
+    </li>
+    
+    <li>
+        <span class="name">user</span>
+        <span class="type">
+            <tt>(Optional[String[1]])</tt>
+        </span>
+         &mdash; Operate on specific user
+    </li>
+    
+    <li>
+        <span class="name">skip_nginx</span>
+        <span class="type">
+            <tt>(Optional[Boolean])</tt>
+        </span>
+         &mdash; Skip execution of the per-user nginx process
+    </li>
+    
+    <li>
+        <span class="name">force</span>
+        <span class="type">
+            <tt>(Optional[Boolean])</tt>
+        </span>
+         &mdash; Force clean ALL per-user nginx processes
+    </li>
+    
+  </ul>
+</div>
+
 </div>
 
       <div id="footer">

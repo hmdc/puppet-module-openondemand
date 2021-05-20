@@ -6,7 +6,7 @@
 <title>
   Puppet Class: openondemand::apache
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -179,9 +179,7 @@
 86
 87
 88
-89
-90
-91</pre>
+89</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/apache.pp', line 3</span>
@@ -272,8 +270,6 @@ class openondemand::apache {
     unit   =&gt; &quot;${::apache::service_name}.service&quot;,
     notify =&gt; Class[&#39;::apache::service&#39;],
   }
-  Class[&#39;systemd::systemctl::daemon_reload&#39;] -&gt; Class[&#39;::apache::service&#39;]
-
 }</pre>
       </td>
     </tr>

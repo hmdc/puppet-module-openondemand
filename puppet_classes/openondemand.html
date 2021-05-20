@@ -6,7 +6,7 @@
 <title>
   Puppet Class: openondemand
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -160,7 +160,7 @@
   
     <li>
       
-        <span class='name'>manage_scl</span>
+        <span class='name'>manage_dependency_repos</span>
       
       
         <span class='type'>(<tt>Boolean</tt>)</span>
@@ -171,7 +171,7 @@
       
         &mdash;
         <div class='inline'>
-<p>Boolean that determines if managing SCL</p>
+<p>Boolean that determines if managing repos for package dependencies</p>
 </div>
       
     </li>
@@ -292,7 +292,7 @@
         <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>&#39;httpd24 rh-ruby25&#39;</tt>)</em>
+        <em class="default">(defaults to: <tt>&#39;httpd24&#39;</tt>)</em>
       
       
         &mdash;
@@ -538,13 +538,31 @@
   
     <li>
       
-        <span class='name'>user_map_cmd</span>
+        <span class='name'>user_map_match</span>
       
       
         <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>&#39;/opt/ood/ood_auth_map/bin/ood_auth_map.regex&#39;</tt>)</em>
+        <em class="default">(defaults to: <tt>&#39;.*&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ood_portal.yml user_map_match</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>user_map_cmd</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
       
       
         &mdash;
@@ -856,6 +874,42 @@
         &mdash;
         <div class='inline'>
 <p>ood_portal.yml pun_max_retries</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>pun_pre_hook_root_cmd</span>
+      
+      
+        <span class='type'>(<tt>Optional[Stdlib::Absolutepath]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ood_portal.yml pun_pre_hook_root_cmd</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>pun_pre_hook_exports</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ood_porta.yml pun_pre_hook_exports</p>
 </div>
       
     </li>
@@ -1313,6 +1367,60 @@
   
     <li>
       
+        <span class='name'>hook_env</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Boolean that sets of hook.env configuration should be managed</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>hook_env_path</span>
+      
+      
+        <span class='type'>(<tt>Stdlib::Absolutepath</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;/etc/ood/config/hook.env&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Path to hook.env</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>hook_env_config</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Configuration hash to pass into hook.env</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>clusters</span>
       
       
@@ -1631,18 +1739,6 @@ defined</p>
         <pre class="lines">
 
 
-175
-176
-177
-178
-179
-180
-181
-182
-183
-184
-185
-186
 187
 188
 189
@@ -1933,10 +2029,33 @@ defined</p>
 474
 475
 476
-477</pre>
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 175</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 187</span>
 
 class openondemand (
   # repos
@@ -1946,7 +2065,7 @@ class openondemand (
   Variant[Stdlib::HTTPSUrl, Stdlib::HTTPUrl, Stdlib::Absolutepath]
     $repo_gpgkey = &#39;https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand&#39;,
   Integer[1,99] $repo_priority = 99,
-  Boolean $manage_scl = true,
+  Boolean $manage_dependency_repos = true,
 
   # packages
   Boolean $selinux = false,
@@ -1957,7 +2076,7 @@ class openondemand (
 
   # Apache
   Boolean $declare_apache = true,
-  String $apache_scls = &#39;httpd24 rh-ruby25&#39;,
+  String $apache_scls = &#39;httpd24&#39;,
 
   # ood_portal.yml
   Variant[Array, String, Undef] $listen_addr_port = undef,
@@ -1973,7 +2092,8 @@ class openondemand (
   Boolean $security_strict_transport = true,
   String $lua_root = &#39;/opt/ood/mod_ood_proxy/lib&#39;,
   Optional[String] $lua_log_level = undef,
-  String $user_map_cmd  = &#39;/opt/ood/ood_auth_map/bin/ood_auth_map.regex&#39;,
+  String $user_map_match = &#39;.*&#39;,
+  Optional[String] $user_map_cmd  = undef,
   Optional[String] $user_env = undef,
   Optional[String] $map_fail_uri = undef,
   Enum[&#39;CAS&#39;, &#39;openid-connect&#39;, &#39;shibboleth&#39;, &#39;dex&#39;] $auth_type = &#39;dex&#39;,
@@ -1991,6 +2111,8 @@ class openondemand (
   String $pun_uri = &#39;/pun&#39;,
   String $pun_socket_root = &#39;/var/run/ondemand-nginx&#39;,
   Integer $pun_max_retries = 5,
+  Optional[Stdlib::Absolutepath] $pun_pre_hook_root_cmd = undef,
+  Optional[String] $pun_pre_hook_exports = undef,
   Optional[String] $oidc_uri = undef,
   Optional[String] $oidc_discover_uri = undef,
   Optional[String] $oidc_discover_root = undef,
@@ -2024,6 +2146,11 @@ class openondemand (
   String $nginx_stage_scl_env = &#39;ondemand&#39;,
   Optional[Openondemand::Nginx_stage_namespace_config] $nginx_stage_app_request_regex = undef,
   Integer $nginx_stage_min_uid = 1000,
+
+  # hooks
+  Boolean $hook_env = true,
+  Stdlib::Absolutepath $hook_env_path = &#39;/etc/ood/config/hook.env&#39;,
+  Hash $hook_env_config = {},
 
   # clusters
   Hash $clusters = {},
@@ -2152,6 +2279,7 @@ class openondemand (
     &#39;security_strict_transport&#39;        =&gt; $security_strict_transport,
     &#39;lua_root&#39;                         =&gt; $lua_root,
     &#39;lua_log_level&#39;                    =&gt; $lua_log_level,
+    &#39;user_map_match&#39;                   =&gt; $user_map_match,
     &#39;user_map_cmd&#39;                     =&gt; $user_map_cmd,
     &#39;user_env&#39;                         =&gt; $user_env,
     &#39;map_fail_uri&#39;                     =&gt; $map_fail_uri,
@@ -2170,6 +2298,8 @@ class openondemand (
     &#39;pun_uri&#39;                          =&gt; $pun_uri,
     &#39;pun_socket_root&#39;                  =&gt; $pun_socket_root,
     &#39;pun_max_retries&#39;                  =&gt; $pun_max_retries,
+    &#39;pun_pre_hook_root_cmd&#39;            =&gt; $pun_pre_hook_root_cmd,
+    &#39;pun_pre_hook_exports&#39;             =&gt; $pun_pre_hook_exports,
     &#39;oidc_uri&#39;                         =&gt; $oidc_uri,
     &#39;oidc_discover_uri&#39;                =&gt; $oidc_discover_uri,
     &#39;oidc_discover_root&#39;               =&gt; $oidc_discover_root,

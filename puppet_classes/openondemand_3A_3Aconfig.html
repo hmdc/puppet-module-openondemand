@@ -6,7 +6,7 @@
 <title>
   Puppet Class: openondemand::config
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -342,7 +342,26 @@
 249
 250
 251
-252</pre>
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/config.pp', line 3</span>
@@ -555,6 +574,25 @@ class openondemand::config {
     group   =&gt; &#39;root&#39;,
     mode    =&gt; &#39;0644&#39;,
     content =&gt; template(&#39;openondemand/nginx_stage.yml.erb&#39;),
+  }
+
+  if $openondemand::hook_env and $openondemand::pun_pre_hook_root_cmd {
+    $hook_env_default = {
+      &#39;CLIENT_ID&#39; =&gt; $openondemand::oidc_client_id,
+      &#39;CLIENT_SECRET&#39; =&gt; $openondemand::oidc_client_secret,
+    }.filter |$key,$value| { $value =~ NotUndef }
+    $hook_env_config = $hook_env_default + $openondemand::hook_env_config
+    $hook_env = $hook_env_config.map |$key,$value| { &quot;${key}=\&quot;${value}\&quot;&quot; }
+    $hook_env_content = join($hook_env, &quot;\n&quot;)
+
+    file { $openondemand::hook_env_path:
+      ensure    =&gt; &#39;file&#39;,
+      owner     =&gt; &#39;root&#39;,
+      group     =&gt; &#39;root&#39;,
+      mode      =&gt; &#39;0600&#39;,
+      show_diff =&gt; false,
+      content   =&gt; $hook_env_content,
+    }
   }
 
   file { &#39;/etc/ood/profile&#39;:

@@ -6,7 +6,7 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -62,23 +62,23 @@
 
 <p><a href="https://forge.puppetlabs.com/osc/openondemand"><img
 src="http://img.shields.io/puppetforge/v/osc/openondemand.svg"></a> <a
-href="https://travis-ci.org/osc/puppet-module-openondemand"><img
-src="https://travis-ci.org/osc/puppet-module-openondemand.png"></a></p>
+href="https://github.com/osc/puppet-module-openondemand/actions?query=workflow%3ACI"><img
+src="https://github.com/osc/puppet-module-openondemand/workflows/CI/badge.svg?branch=master"></a></p>
 
 <h4 id="label-Table+of+Contents">Table of Contents</h4>
 <ol><li>
-<p><a href="#label-Overview">Overview</a></p>
+<p><a href="#overview">Overview</a></p>
 <ul><li>
-<p><a href="#label-Supported+versions+of+open+ondemand">Supported Versions of Open
+<p><a href="#supported-versions-of-open-ondemand">Supported Versions of Open
 OnDemand</a></p>
 </li></ul>
 </li><li>
-<p><a href="#label-Usage">Usage - Configuration options</a></p>
+<p><a href="#usage">Usage - Configuration options</a></p>
 </li><li>
-<p><a href="#label-Reference">Reference - Parameter and detailed reference to all
+<p><a href="#reference">Reference - Parameter and detailed reference to all
 options</a></p>
 </li><li>
-<p><a href="#label-Limitations">Limitations - OS compatibility, etc.</a></p>
+<p><a href="#limitations">Limitations - OS compatibility, etc.</a></p>
 </li></ol>
 
 <h2 id="label-Overview">Overview</h2>
@@ -91,7 +91,9 @@ and configuration.</p>
 <p>The following are the versions of this module and the supported versions of
 Open OnDemand:</p>
 <ul><li>
-<p>Module &gt;= 1.0.0 supports Open OnDemand &gt;= 1.8</p>
+<p>Module 2.x supports Open OnDemand 2.x</p>
+</li><li>
+<p>Module 1.x supports Open OnDemand 1.18.x</p>
 </li><li>
 <p>Module &lt;= 0.12.0 supports Open OnDemand &lt;= 1.7</p>
 </li></ul>
@@ -101,15 +103,15 @@ Open OnDemand:</p>
 <p>All configuration can be done through the <code>openondemand</code> class.
 Example configurations will be done in Hiera format.</p>
 
-<pre class="code ruby"><code class="ruby">include ::openondemand
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_openondemand'>openondemand</span>
 </code></pre>
 
-<p>Install specific versions of OnDemand from 1.6 repo with OpenID Connect
+<p>Install specific versions of OnDemand from 2.0 repo with OpenID Connect
 support.</p>
 
-<pre class="code ruby"><code class="ruby">openondemand::repo_release: &#39;1.8&#39;
-openondemand::ondemand_package_ensure: &quot;1.8.5-1.el7&quot;
-openondemand::mod_auth_openidc_ensure: &quot;2.3.11-1.el7&quot;
+<pre class="code ruby"><code class="ruby">openondemand::repo_release: &#39;2.0&#39;
+openondemand::ondemand_package_ensure: &quot;2.0.0-1.el7&quot;
+openondemand::mod_auth_openidc_ensure: &quot;2.4.5-1.el7&quot;
 </code></pre>
 
 <p>Configure OnDemand SSL certs</p>
@@ -175,7 +177,7 @@ examples the IdP is Keycloak.</p>
 openondemand::auth_type: &#39;openid-connect&#39;
 openondemand::auth_configs:
   - &#39;Require valid-user&#39;
-openondemand::user_map_cmd: /opt/ood/ood_auth_map/bin/ood_auth_map.regex
+openondemand::user_map_match: &#39;.*&#39;
 openondemand::logout_redirect: &quot;/oidc?logout=https%3A%2F%2F%{lookup(&#39;openondemand::servername&#39;)}&quot;
 openondemand::oidc_uri: &#39;/oidc&#39;
 openondemand::oidc_provider_metadata_url: &#39;https://idp.osc.edu/auth/realms/osc/.well-known/openid-configuration&#39;
@@ -266,6 +268,30 @@ using Torque</p>
     batch_connect:
       vnc:
         script_wrapper: &#39;module restore\nmodule load ondemand-vnc\n%s&#39;
+</code></pre>
+
+<p>Define a Kubernetes cluster:</p>
+
+<pre class="code ruby"><code class="ruby">openondemand::clusters:
+  kubernetes:
+    cluster_title: Kubernetes
+    hidden: true
+    job_adapter: kubernetes
+    job_bin: /usr/local/bin/kubectl
+    job_cluster: ood-prod
+    job_username_prefix: prod
+    job_namespace_prefix: &#39;user-&#39;
+    job_server:
+      endpoint: &quot;https://k8controler.example.com:6443&quot;
+      cert_authority_file: /etc/pki/tls/kubernetes-ca.crt
+    job_mounts:
+      - name: home
+        destination_path: /users
+        path: /users
+        host_type: Directory
+        type: host
+    job_auth:
+      type: oidc
 </code></pre>
 
 <p>Add XDMoD support</p>
