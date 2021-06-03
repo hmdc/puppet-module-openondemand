@@ -1367,6 +1367,153 @@
   
     <li>
       
+        <span class='name'>config_dir_purge</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Boolean that sets if ondemand.d should be purged of unmanaged files</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>config_source</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The source for /etc/ood/config/ondemand.d/ondemand.yml Overrides
+<code>config_content</code> as well as pinned apps and dashboard layout
+parameters</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>config_content</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The content for /etc/ood/config/ondemand.d/ondemand.yml Overrides pinned
+apps and dashboard layout parameters</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>confs</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Hash to define openondemand::conf resources</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>pinned_apps</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[Variant[String[1], Hash]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Defines the OnDemand configuration for pinned_apps</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>pinned_apps_menu_length</span>
+      
+      
+        <span class='type'>(<tt>Optional[Integer]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Defines the OnDemand configuration for pinned_apps_menu_length</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>pinned_apps_group_by</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Defines the OnDemand configuration for pinned_apps_group_by</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>dashboard_layout</span>
+      
+      
+        <span class='type'>(<tt>Optional[Openondemand::Dashboard_layout]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Defines the OnDemand configuration for dashboard_layout</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>hook_env</span>
       
       
@@ -1739,24 +1886,6 @@ defined</p>
         <pre class="lines">
 
 
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204
 205
 206
 207
@@ -2052,10 +2181,48 @@ defined</p>
 497
 498
 499
-500</pre>
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 187</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 205</span>
 
 class openondemand (
   # repos
@@ -2146,6 +2313,16 @@ class openondemand (
   String $nginx_stage_scl_env = &#39;ondemand&#39;,
   Optional[Openondemand::Nginx_stage_namespace_config] $nginx_stage_app_request_regex = undef,
   Integer $nginx_stage_min_uid = 1000,
+
+  # configs
+  Boolean $config_dir_purge = true,
+  Optional[String] $config_source = undef,
+  Optional[String] $config_content = undef,
+  Hash $confs = {},
+  Optional[Array[Variant[String[1], Hash]]] $pinned_apps = undef,
+  Optional[Integer] $pinned_apps_menu_length = undef,
+  Optional[String[1]] $pinned_apps_group_by = undef,
+  Optional[Openondemand::Dashboard_layout] $dashboard_layout = undef,
 
   # hooks
   Boolean $hook_env = true,
@@ -2266,7 +2443,7 @@ class openondemand (
     $_clusters = $clusters
   }
 
-  $ood_portal_config = delete_undef_values({
+  $ood_portal_config = {
     &#39;listen_addr_port&#39;                 =&gt; $listen_ports,
     &#39;servername&#39;                       =&gt; $servername,
     &#39;port&#39;                             =&gt; $port,
@@ -2315,7 +2492,7 @@ class openondemand (
     &#39;oidc_state_max_number_of_cookies&#39; =&gt; $oidc_state_max_number_of_cookies,
     &#39;oidc_settings&#39;                    =&gt; $oidc_settings,
     &#39;dex&#39;                              =&gt; $_dex_config,
-  })
+  }.filter |$key, $value| { $value =~ NotUndef }
   $ood_portal_yaml = to_yaml($ood_portal_config)
   $base_apps = {
     &#39;dashboard&#39; =&gt; { &#39;package&#39; =&gt; &#39;ondemand&#39;, &#39;manage_package&#39; =&gt; false },
@@ -2326,6 +2503,13 @@ class openondemand (
     &#39;myjobs&#39; =&gt; { &#39;package&#39; =&gt; &#39;ondemand&#39;, &#39;manage_package&#39; =&gt; false },
     &#39;bc_desktop&#39; =&gt; { &#39;package&#39; =&gt; &#39;ondemand&#39;, &#39;manage_package&#39; =&gt; false },
   }
+
+  $ondemand_config = {
+    &#39;pinned_apps&#39; =&gt; $pinned_apps,
+    &#39;pinned_apps_menu_length&#39; =&gt; $pinned_apps_menu_length,
+    &#39;pinned_apps_group_by&#39; =&gt; $pinned_apps_group_by,
+    &#39;dashboard_layout&#39; =&gt; $dashboard_layout,
+  }.filter |$key, $value| { $value =~ NotUndef }
 
   contain openondemand::repo
   contain openondemand::install
@@ -2370,6 +2554,9 @@ class openondemand (
     openondemand::install::app { $name: * =&gt; $app }
   }
 
+  $confs.each |$name, $params| {
+    openondemand::conf { $name: * =&gt; $params }
+  }
 }</pre>
       </td>
     </tr>

@@ -332,6 +332,47 @@ openondemand::usr_apps:
   - user2
 </code></pre>
 
+<p>Define some pinned apps and dashboard layout:</p>
+
+<pre class="code ruby"><code class="ruby">openondemand::pinned_apps:
+  - &#39;usr/*&#39;
+  - &#39;sys/jupyter&#39;
+  - type: dev
+    category: system
+openondemand::pinned_apps_menu_length: 10
+openondemand::pinned_apps_group_by: category
+openondemand::dashboard_layout:
+  rows:
+    - columns:
+      - width: 8
+        widgets:
+          - pinned_apps
+          - motd
+      - width: 4
+        widgets:
+          - xdmod_widget_job_efficiency
+          - xdmod_widget_jobs
+</code></pre>
+
+<p>Define some configurations for <code>/etc/ood/config/ondemand.d</code>.
+This will generate
+<code>/etc/ood/config/ondemand.d/pinned_apps.yml.erb</code> based on the
+source file as well as
+<code>/etc/ood/config/ondemand.d/dashboard_layout.yml</code> from a
+template file. The example for <code>foobar</code> will generate the YAML
+file using data defined in Hiera.</p>
+
+<pre class="code ruby"><code class="ruby">openondemand::confs:
+  pinned_apps:
+    source: &#39;puppet:///modules/profile/openondemand/pinned_apps.yml.erb&#39;
+    template: true
+  dashboard_layout:
+    content_template: &#39;profile/openondemand/dashboard_layout.yml.erb&#39;
+  foobar:
+    data:
+      ...hash of configuration data here...
+</code></pre>
+
 <h2 id="label-Reference">Reference</h2>
 
 <p><a
