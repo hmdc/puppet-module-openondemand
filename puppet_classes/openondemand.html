@@ -1367,6 +1367,42 @@
   
     <li>
       
+        <span class='name'>nginx_stage_passenger_pool_idle_time</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>300</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>nginx_stage.yml passenger_pool_idle_time</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nginx_stage_passenger_options</span>
+      
+      
+        <span class='type'>(<tt>Hash[Pattern[/^passenger_.+/], Variant[String, Integer]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>nginx_stage.yml passenger_options</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>config_dir_purge</span>
       
       
@@ -1886,10 +1922,6 @@ defined</p>
         <pre class="lines">
 
 
-205
-206
-207
-208
 209
 210
 211
@@ -2219,10 +2251,16 @@ defined</p>
 535
 536
 537
-538</pre>
+538
+539
+540
+541
+542
+543
+544</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 205</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 209</span>
 
 class openondemand (
   # repos
@@ -2313,6 +2351,8 @@ class openondemand (
   String $nginx_stage_scl_env = &#39;ondemand&#39;,
   Optional[Openondemand::Nginx_stage_namespace_config] $nginx_stage_app_request_regex = undef,
   Integer $nginx_stage_min_uid = 1000,
+  Integer $nginx_stage_passenger_pool_idle_time = 300,
+  Hash[Pattern[/^passenger_.+/], Variant[String, Integer]] $nginx_stage_passenger_options = {},
 
   # configs
   Boolean $config_dir_purge = true,
