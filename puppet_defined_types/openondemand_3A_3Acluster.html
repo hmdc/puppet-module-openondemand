@@ -949,7 +949,10 @@
 153
 154
 155
-156</pre>
+156
+157
+158
+159</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/cluster.pp', line 63</span>
@@ -1023,6 +1026,7 @@ define openondemand::cluster (
   Optional[Integer] $xdmod_resource_id = undef,
   Openondemand::Batch_connect $batch_connect = {},
 ) {
+  include openondemand
 
   if $grafana_host {
     if $grafana_dashboard_name == undef or $grafana_dashboard_uid == undef or $grafana_dashboard_panels == undef or $grafana_labels == undef {
@@ -1034,9 +1038,11 @@ define openondemand::cluster (
     if !$job_server {
       fail(&#39;Must define job_server when job_adapter is kubernetes&#39;)
     }
+    $_job_bin = pick($job_bin, $openondemand::kubectl_path)
+  } else {
+    $_job_bin = $job_bin
   }
 
-  include openondemand
 
   file { &quot;/etc/ood/config/clusters.d/${name}.yml&quot;:
     ensure  =&gt; &#39;file&#39;,

@@ -1604,6 +1604,24 @@ apps and dashboard layout parameters</p>
   
     <li>
       
+        <span class='name'>kubectl_path</span>
+      
+      
+        <span class='type'>(<tt>Stdlib::Absolutepath</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;/bin/kubectl&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Path to kubectl</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>clusters</span>
       
       
@@ -1922,8 +1940,6 @@ defined</p>
         <pre class="lines">
 
 
-209
-210
 211
 212
 213
@@ -2257,10 +2273,13 @@ defined</p>
 541
 542
 543
-544</pre>
+544
+545
+546
+547</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 209</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 211</span>
 
 class openondemand (
   # repos
@@ -2368,6 +2387,7 @@ class openondemand (
   Boolean $hook_env = true,
   Stdlib::Absolutepath $hook_env_path = &#39;/etc/ood/config/hook.env&#39;,
   Hash $hook_env_config = {},
+  Stdlib::Absolutepath $kubectl_path = &#39;/bin/kubectl&#39;,
 
   # clusters
   Hash $clusters = {},
