@@ -110,7 +110,12 @@
 17
 18
 19
-20</pre>
+20
+21
+22
+23
+24
+25</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/install.pp', line 3</span>
@@ -122,6 +127,11 @@ class openondemand::install {
     ensure =&gt; $openondemand::ondemand_package_ensure,
     notify =&gt; Exec[&#39;ood-portal-generator-generate&#39;],
   }
+
+  # Ensure changes to packaged sudo files and produced rpmnew
+  # Are deleted in idempotent way
+  include sudo
+  Package[&#39;ondemand&#39;] -&gt; Class[&#39;sudo&#39;]
 
   package { &#39;ondemand-selinux&#39;:
     ensure =&gt; $openondemand::selinux_package_ensure,
