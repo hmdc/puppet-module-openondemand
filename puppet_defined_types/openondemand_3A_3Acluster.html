@@ -515,6 +515,19 @@
   
     <li>
       
+        <span class='name'>job_auto_supplemental_groups</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>job_server</span>
       
       
@@ -856,7 +869,6 @@
         <pre class="lines">
 
 
-63
 64
 65
 66
@@ -952,10 +964,12 @@
 156
 157
 158
-159</pre>
+159
+160
+161</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/cluster.pp', line 63</span>
+        <pre class="code"><span class="info file"># File 'manifests/cluster.pp', line 64</span>
 
 define openondemand::cluster (
   String $cluster_title = $name,
@@ -992,6 +1006,7 @@ define openondemand::cluster (
   Optional[String] $job_username_prefix = undef,
   Optional[String] $job_namespace_prefix = undef,
   Boolean $job_all_namespaces = false,
+  Boolean $job_auto_supplemental_groups = false,
   Optional[Openondemand::K8_server] $job_server = undef,
   Array[Openondemand::K8_mount] $job_mounts = [],
   Optional[Openondemand::K8_auth] $job_auth = undef,
