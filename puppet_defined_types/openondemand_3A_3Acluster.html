@@ -847,6 +847,24 @@
   
     <li>
       
+        <span class='name'>custom_config</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Custom Hash passed to <code>v2.custom</code> in cluster YAML</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>batch_connect</span>
       
       
@@ -869,8 +887,6 @@
         <pre class="lines">
 
 
-64
-65
 66
 67
 68
@@ -966,10 +982,13 @@
 158
 159
 160
-161</pre>
+161
+162
+163
+164</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/cluster.pp', line 64</span>
+        <pre class="code"><span class="info file"># File 'manifests/cluster.pp', line 66</span>
 
 define openondemand::cluster (
   String $cluster_title = $name,
@@ -1039,6 +1058,7 @@ define openondemand::cluster (
   }]] $grafana_labels = undef,
   Optional[String] $grafana_cluster_override = undef,
   Optional[Integer] $xdmod_resource_id = undef,
+  Hash $custom_config = {},
   Openondemand::Batch_connect $batch_connect = {},
 ) {
   include openondemand
