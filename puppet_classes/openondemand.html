@@ -1403,6 +1403,42 @@
   
     <li>
       
+        <span class='name'>nginx_stage_nginx_file_upload_max</span>
+      
+      
+        <span class='type'>(<tt>Optional[Integer]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>nginx_stage.yml nginx_file_upload_max</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nginx_stage_configs</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>nginx_stage.yml extra configuration options</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>config_dir_purge</span>
       
       
@@ -1940,10 +1976,6 @@ defined</p>
         <pre class="lines">
 
 
-211
-212
-213
-214
 215
 216
 217
@@ -2276,10 +2308,16 @@ defined</p>
 544
 545
 546
-547</pre>
+547
+548
+549
+550
+551
+552
+553</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 211</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 215</span>
 
 class openondemand (
   # repos
@@ -2372,6 +2410,8 @@ class openondemand (
   Integer $nginx_stage_min_uid = 1000,
   Integer $nginx_stage_passenger_pool_idle_time = 300,
   Hash[Pattern[/^passenger_.+/], Variant[String, Integer]] $nginx_stage_passenger_options = {},
+  Optional[Integer] $nginx_stage_nginx_file_upload_max = undef,
+  Hash $nginx_stage_configs = {},
 
   # configs
   Boolean $config_dir_purge = true,
