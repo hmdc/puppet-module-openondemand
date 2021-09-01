@@ -160,7 +160,31 @@
 67
 68
 69
-70</pre>
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/repo.pp', line 3</span>
@@ -168,9 +192,33 @@
 class openondemand::repo {
   assert_private()
 
+  if $openondemand::repo_nightly {
+    $nightly_ensure = &#39;present&#39;
+    exec { &#39;makecache ondemand-web-nightly&#39;:
+      path        =&gt; &#39;/usr/bin:/bin:/usr/sbin:/sbin&#39;,
+      command     =&gt; &quot;${facts[&#39;package_provider&#39;]} -q makecache -y --disablerepo=&#39;*&#39; --enablerepo=&#39;ondemand-web-nightly&#39;&quot;,
+      refreshonly =&gt; true,
+      subscribe   =&gt; Yumrepo[&#39;ondemand-web-nightly&#39;],
+    }
+  } else {
+    $nightly_ensure = &#39;absent&#39;
+  }
+
   yumrepo { &#39;ondemand-web&#39;:
     descr           =&gt; &#39;Open OnDemand Web Repo&#39;,
     baseurl         =&gt; $openondemand::repo_baseurl,
+    enabled         =&gt; &#39;1&#39;,
+    gpgcheck        =&gt; &#39;1&#39;,
+    repo_gpgcheck   =&gt; &#39;1&#39;,
+    gpgkey          =&gt; $openondemand::repo_gpgkey,
+    metadata_expire =&gt; &#39;1&#39;,
+    priority        =&gt; $openondemand::repo_priority,
+  }
+
+  yumrepo { &#39;ondemand-web-nightly&#39;:
+    ensure          =&gt; $nightly_ensure,
+    descr           =&gt; &#39;Open OnDemand Web Repo - Nightly&#39;,
+    baseurl         =&gt; $openondemand::repo_nightly_baseurl,
     enabled         =&gt; &#39;1&#39;,
     gpgcheck        =&gt; &#39;1&#39;,
     repo_gpgcheck   =&gt; &#39;1&#39;,

@@ -178,6 +178,24 @@
   
     <li>
       
+        <span class='name'>repo_nightly</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Add the OnDemand nightly repo</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>selinux</span>
       
       
@@ -1976,8 +1994,6 @@ defined</p>
         <pre class="lines">
 
 
-215
-216
 217
 218
 219
@@ -2314,10 +2330,14 @@ defined</p>
 550
 551
 552
-553</pre>
+553
+554
+555
+556
+557</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 215</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 217</span>
 
 class openondemand (
   # repos
@@ -2328,6 +2348,7 @@ class openondemand (
     $repo_gpgkey = &#39;https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand&#39;,
   Integer[1,99] $repo_priority = 99,
   Boolean $manage_dependency_repos = true,
+  Boolean $repo_nightly = false,
 
   # packages
   Boolean $selinux = false,
@@ -2484,6 +2505,7 @@ class openondemand (
   }
 
   $repo_baseurl = &quot;${repo_baseurl_prefix}/${repo_release}/web/el${osmajor}/\$basearch&quot;
+  $repo_nightly_baseurl = &quot;${repo_baseurl_prefix}/nightly/web/el${osmajor}/\$basearch&quot;
 
   if $ssl {
     $port = &#39;443&#39;
