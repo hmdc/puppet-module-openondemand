@@ -393,7 +393,8 @@
 300
 301
 302
-303</pre>
+303
+304</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/config.pp', line 3</span>
@@ -606,6 +607,7 @@ class openondemand::config {
     notify    =&gt; Exec[&#39;ood-portal-generator-generate&#39;],
   }
   exec { &#39;ood-portal-generator-generate&#39;:
+    path        =&gt; &#39;/usr/bin:/bin:/usr/sbin:/sbin&#39;,
     command     =&gt; &#39;/opt/ood/ood-portal-generator/bin/generate -o /etc/ood/config/ood-portal.conf -d /etc/ood/dex/config.yaml&#39;,
     refreshonly =&gt; true,
     before      =&gt; ::Apache::Custom_config[&#39;ood-portal&#39;],
