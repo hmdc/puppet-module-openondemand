@@ -394,7 +394,14 @@
 301
 302
 303
-304</pre>
+304
+305
+306
+307
+308
+309
+310
+311</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/config.pp', line 3</span>
@@ -606,18 +613,25 @@ class openondemand::config {
     show_diff =&gt; false,
     notify    =&gt; Exec[&#39;ood-portal-generator-generate&#39;],
   }
+  $generate = &#39;/opt/ood/ood-portal-generator/bin/generate -o /etc/ood/config/ood-portal.conf -d /etc/ood/dex/config.yaml&#39;
   exec { &#39;ood-portal-generator-generate&#39;:
     path        =&gt; &#39;/usr/bin:/bin:/usr/sbin:/sbin&#39;,
-    command     =&gt; &#39;/opt/ood/ood-portal-generator/bin/generate -o /etc/ood/config/ood-portal.conf -d /etc/ood/dex/config.yaml&#39;,
+    command     =&gt; $generate,
     refreshonly =&gt; true,
     before      =&gt; ::Apache::Custom_config[&#39;ood-portal&#39;],
+  }
+  exec { &#39;ood-portal-generator-generate-refresh&#39;:
+    path    =&gt; &#39;/usr/bin:/bin:/usr/sbin:/sbin&#39;,
+    command =&gt; $generate,
+    creates =&gt; &#39;/etc/ood/config/ood-portal.conf&#39;,
+    before  =&gt; ::Apache::Custom_config[&#39;ood-portal&#39;],
   }
 
   include ::apache::params
   ::apache::custom_config { &#39;ood-portal&#39;:
     source         =&gt; &#39;/etc/ood/config/ood-portal.conf&#39;,
     filename       =&gt; &#39;ood-portal.conf&#39;,
-    verify_command =&gt; $::apache::params::verify_command,
+    verify_command =&gt; &quot;${apache::params::verify_command} || { /bin/rm -f /etc/ood/config/ood-portal.conf; exit 1; }&quot;,
     show_diff      =&gt; false,
     owner          =&gt; &#39;root&#39;,
     group          =&gt; $apache::params::group,

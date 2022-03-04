@@ -184,7 +184,8 @@
 91
 92
 93
-94</pre>
+94
+95</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/repo.pp', line 3</span>
@@ -213,6 +214,7 @@ class openondemand::repo {
     gpgkey          =&gt; $openondemand::repo_gpgkey,
     metadata_expire =&gt; &#39;1&#39;,
     priority        =&gt; $openondemand::repo_priority,
+    exclude         =&gt; $openondemand::repo_exclude,
   }
 
   yumrepo { &#39;ondemand-web-nightly&#39;:
