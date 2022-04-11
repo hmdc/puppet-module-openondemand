@@ -99,6 +99,60 @@
   
     <li>
       
+        <span class='name'>owner</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;root&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Owner of the cluster YAML file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>group</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;root&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Group of the cluster YAML file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>mode</span>
+      
+      
+        <span class='type'>(<tt>Stdlib::Filemode</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;0644&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Ownership mode of the cluster YAML file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>url</span>
       
       
@@ -887,12 +941,6 @@
         <pre class="lines">
 
 
-66
-67
-68
-69
-70
-71
 72
 73
 74
@@ -985,13 +1033,25 @@
 161
 162
 163
-164</pre>
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/cluster.pp', line 66</span>
+        <pre class="code"><span class="info file"># File 'manifests/cluster.pp', line 72</span>
 
 define openondemand::cluster (
   String $cluster_title = $name,
+  String $owner = &#39;root&#39;,
+  String $group = &#39;root&#39;,
+  Stdlib::Filemode $mode = &#39;0644&#39;,
   Optional[Variant[Stdlib::HTTPSUrl, Stdlib::HTTPUrl] ]$url = undef,
   Boolean $hidden = false,
   Array[Openondemand::Acl] $acls = [],
@@ -1081,9 +1141,9 @@ define openondemand::cluster (
 
   file { &quot;/etc/ood/config/clusters.d/${name}.yml&quot;:
     ensure  =&gt; &#39;file&#39;,
-    owner   =&gt; &#39;root&#39;,
-    group   =&gt; &#39;root&#39;,
-    mode    =&gt; &#39;0644&#39;,
+    owner   =&gt; $owner,
+    group   =&gt; $group,
+    mode    =&gt; $mode,
     content =&gt; template(&#39;openondemand/cluster/main.yml.erb&#39;),
     notify  =&gt; Class[&#39;openondemand::service&#39;],
   }
