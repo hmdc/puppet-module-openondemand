@@ -150,6 +150,43 @@
   
     <li>
       
+        <span class='name'>git_repo</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The git repo to use to install the app If defined, no package will be
+installed</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>git_revision</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The git revision to checkout</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>path</span>
       
       
@@ -231,11 +268,6 @@
         <pre class="lines">
 
 
-23
-24
-25
-26
-27
 28
 29
 30
@@ -262,15 +294,40 @@
 51
 52
 53
-54</pre>
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/install/app.pp', line 23</span>
+        <pre class="code"><span class="info file"># File 'manifests/install/app.pp', line 28</span>
 
 define openondemand::install::app (
   String $ensure = &#39;present&#39;,
   String $package = &quot;ondemand-${name}&quot;,
   Boolean $manage_package = true,
+  Optional[String] $git_repo = undef,
+  Optional[String] $git_revision = undef,
   Optional[Stdlib::Absolutepath] $path = undef,
   String $owner = &#39;root&#39;,
   String $group = &#39;root&#39;,
@@ -281,20 +338,36 @@ define openondemand::install::app (
 
   $_path = pick($path, &quot;${openondemand::web_directory}/apps/sys/${name}&quot;)
 
-  if $manage_package {
+  if $manage_package and ! $git_repo {
     ensure_resource(&#39;package&#39;, $package, {
       &#39;ensure&#39;  =&gt; $ensure,
       &#39;require&#39; =&gt; Package[&#39;ondemand&#39;],
     })
   }
 
+  if $git_repo {
+    vcsrepo { $_path:
+      ensure   =&gt; $ensure,
+      source   =&gt; $git_repo,
+      revision =&gt; $git_revision,
+      provider =&gt; &#39;git&#39;,
+      require  =&gt; Package[&#39;ondemand&#39;],
+    }
+  }
+
   if $ensure != &#39;absent&#39; {
     file { $_path:
-      ensure  =&gt; &#39;directory&#39;,
-      owner   =&gt; $owner,
-      group   =&gt; $group,
-      mode    =&gt; $mode,
-      require =&gt; Package[$package],
+      ensure =&gt; &#39;directory&#39;,
+      owner  =&gt; $owner,
+      group  =&gt; $group,
+      mode   =&gt; $mode,
+    }
+
+    if $manage_package and ! $git_repo {
+      Package[$package] -&gt; File[$_path]
+    }
+    if $git_repo {
+      Vcsrepo[$_path] -&gt; File[$_path]
     }
   }
 

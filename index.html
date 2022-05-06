@@ -313,6 +313,18 @@ like the following to set the appropriate environment variable:</p>
     mode: &#39;0700&#39;
 </code></pre>
 
+<p>Install additional apps from Git repos:</p>
+
+<pre class="code ruby"><code class="ruby">openondemand::install_apps:
+  bc_osc_rstudio_server:
+    ensure: latest
+    git_repo: https://github.com/OSC/bc_osc_rstudio_server.git
+  bc_osc_jupyter:
+    ensure: present
+    git_repo: https://github.com/OSC/bc_osc_jupyter
+    git_revision: v0.20.0
+</code></pre>
+
 <p>Add usr apps with a default group</p>
 
 <pre class="code ruby"><code class="ruby">openondemand::usr_app_defaults:
