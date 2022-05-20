@@ -539,6 +539,9 @@ class openondemand (
   ->Class['openondemand::config']
   ->Class['openondemand::service']
 
+  Class['openondemand::install'] -> Class['apache']
+  Class['openondemand::install'] -> Apache::Mod <| |>
+
   $_clusters.each |$name, $cluster| {
     openondemand::cluster { $name: * => $cluster }
   }
