@@ -6,7 +6,7 @@
 <title>
   Puppet Class: openondemand
   
-    &mdash; Documentation by YARD 0.9.26
+    &mdash; Documentation by YARD 0.9.27
   
 </title>
 
@@ -94,7 +94,7 @@
         <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>&#39;latest&#39;</tt>)</em>
+        <em class="default">(defaults to: <tt>&#39;2.0&#39;</tt>)</em>
       
       
         &mdash;
@@ -649,7 +649,7 @@
         <span class='name'>auth_type</span>
       
       
-        <span class='type'>(<tt>Enum['CAS', 'openid-connect', 'shibboleth', 'dex']</tt>)</span>
+        <span class='type'>(<tt>Variant[Enum['CAS', 'openid-connect', 'shibboleth', 'dex'], String[1]]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>&#39;dex&#39;</tt>)</em>
@@ -2360,7 +2360,7 @@ defined</p>
 
 class openondemand (
   # repos
-  String $repo_release = &#39;latest&#39;,
+  String $repo_release = &#39;2.0&#39;,
   Variant[Stdlib::HTTPSUrl, Stdlib::HTTPUrl]
     $repo_baseurl_prefix = &#39;https://yum.osc.edu/ondemand&#39;,
   Variant[Stdlib::HTTPSUrl, Stdlib::HTTPUrl, Stdlib::Absolutepath]
@@ -2399,7 +2399,7 @@ class openondemand (
   Optional[String] $user_map_cmd  = undef,
   Optional[String] $user_env = undef,
   Optional[String] $map_fail_uri = undef,
-  Enum[&#39;CAS&#39;, &#39;openid-connect&#39;, &#39;shibboleth&#39;, &#39;dex&#39;] $auth_type = &#39;dex&#39;,
+  Variant[Enum[&#39;CAS&#39;, &#39;openid-connect&#39;, &#39;shibboleth&#39;, &#39;dex&#39;], String[1]] $auth_type = &#39;dex&#39;,
   Optional[Array] $auth_configs = undef,
   String $root_uri = &#39;/pun/sys/dashboard&#39;,
   Optional[Struct[{url =&gt; String, id =&gt; String}]] $analytics = undef,
