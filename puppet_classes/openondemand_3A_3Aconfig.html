@@ -6,7 +6,7 @@
 <title>
   Puppet Class: openondemand::config
   
-    &mdash; Documentation by YARD 0.9.27
+    &mdash; Documentation by YARD 0.9.28
   
 </title>
 
@@ -401,7 +401,28 @@
 308
 309
 310
-311</pre>
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/config.pp', line 3</span>
@@ -627,11 +648,32 @@ class openondemand::config {
     before  =&gt; ::Apache::Custom_config[&#39;ood-portal&#39;],
   }
 
-  include ::apache::params
+  include apache
+  include apache::params
+  if $facts[&#39;os&#39;][&#39;family&#39;] == &#39;Debian&#39; {
+    $apache_custom_config_confdir = $apache::vhost_dir
+    $apache_custom_config_verify = false
+
+    file { &#39;ood-portal.conf symlink&#39;:
+      ensure  =&gt; &#39;link&#39;,
+      path    =&gt; &quot;${apache::vhost_enable_dir}/ood-portal.conf&quot;,
+      target  =&gt; &quot;${apache::vhost_dir}/ood-portal.conf&quot;,
+      owner   =&gt; &#39;root&#39;,
+      group   =&gt; $apache::params::group,
+      mode    =&gt; &#39;0640&#39;,
+      require =&gt; Apache::Custom_config[&#39;ood-portal&#39;],
+      notify  =&gt; Class[&#39;apache::service&#39;],
+    }
+  } else {
+    $apache_custom_config_confdir = $apache::confd_dir
+    $apache_custom_config_verify = true
+  }
   ::apache::custom_config { &#39;ood-portal&#39;:
     source         =&gt; &#39;/etc/ood/config/ood-portal.conf&#39;,
     filename       =&gt; &#39;ood-portal.conf&#39;,
     verify_command =&gt; &quot;${apache::params::verify_command} || { /bin/rm -f /etc/ood/config/ood-portal.conf; exit 1; }&quot;,
+    confdir        =&gt; $apache_custom_config_confdir,
+    verify_config  =&gt; $apache_custom_config_verify,
     show_diff      =&gt; false,
     owner          =&gt; &#39;root&#39;,
     group          =&gt; $apache::params::group,

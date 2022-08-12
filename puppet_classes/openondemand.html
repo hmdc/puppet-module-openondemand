@@ -6,7 +6,7 @@
 <title>
   Puppet Class: openondemand
   
-    &mdash; Documentation by YARD 0.9.27
+    &mdash; Documentation by YARD 0.9.28
   
 </title>
 
@@ -1204,6 +1204,24 @@
   
     <li>
       
+        <span class='name'>dex_uri</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Dex URI if put behind Apache reverse proxy</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>dex_config</span>
       
       
@@ -2012,8 +2030,6 @@ defined</p>
         <pre class="lines">
 
 
-219
-220
 221
 222
 223
@@ -2353,10 +2369,28 @@ defined</p>
 557
 558
 559
-560</pre>
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 219</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 221</span>
 
 class openondemand (
   # repos
@@ -2434,6 +2468,7 @@ class openondemand (
   Hash $oidc_settings = {},
 
   # Dex configs
+  Optional[String[1]] $dex_uri = undef,
   Openondemand::Dex_config $dex_config = {},
 
   # Misc configs
@@ -2498,18 +2533,13 @@ class openondemand (
 ) {
 
   $osfamily = $facts.dig(&#39;os&#39;, &#39;family&#39;)
-  $_os_release_major = $facts.dig(&#39;os&#39;, &#39;release&#39;, &#39;major&#39;)
+  $osname = $facts.dig(&#39;os&#39;, &#39;name&#39;)
+  $osmajor = $facts.dig(&#39;os&#39;, &#39;release&#39;, &#39;major&#39;)
 
-  if $_os_release_major {
-    $osmajor = split($_os_release_major, &#39;[.]&#39;)[0]
-  } else {
-    $osmajor = &#39;Unknown&#39;
-  }
-
-  $supported = [&#39;RedHat-7&#39;,&#39;RedHat-8&#39;]
+  $supported = [&#39;RedHat-7&#39;,&#39;RedHat-8&#39;,&#39;Debian-18.04&#39;,&#39;Debian-20.04&#39;]
   $os = &quot;${osfamily}-${osmajor}&quot;
   if ! ($os in $supported) {
-    fail(&quot;Unsupported OS: module ${module_name} only supports RedHat 7 and 8. &#39;${os}&#39; detected&quot;)
+    fail(&quot;Unsupported OS: module ${module_name}. osfamily=${osfamily} osmajor=${osmajor} detected&quot;)
   }
 
   if versioncmp($osmajor, &#39;7&#39;) &lt;= 0 {
@@ -2524,8 +2554,13 @@ class openondemand (
     $selinux_package_ensure = &#39;absent&#39;
   }
 
-  $repo_baseurl = &quot;${repo_baseurl_prefix}/${repo_release}/web/el${osmajor}/\$basearch&quot;
-  $repo_nightly_baseurl = &quot;${repo_baseurl_prefix}/nightly/web/el${osmajor}/\$basearch&quot;
+  if $osfamily == &#39;RedHat&#39; {
+    $repo_baseurl = &quot;${repo_baseurl_prefix}/${repo_release}/web/el${osmajor}/\$basearch&quot;
+    $repo_nightly_baseurl = &quot;${repo_baseurl_prefix}/nightly/web/el${osmajor}/\$basearch&quot;
+  } elsif $osfamily == &#39;Debian&#39; {
+    $repo_baseurl = &quot;${repo_baseurl_prefix}/${repo_release}/web/apt&quot;
+    $repo_nightly_baseurl = &quot;${repo_baseurl_prefix}/nightly/web/apt&quot;
+  }
 
   if $ssl {
     $port = &#39;443&#39;
@@ -2535,6 +2570,12 @@ class openondemand (
     $port = &#39;80&#39;
     $listen_ports = [&#39;80&#39;]
     $protocol = &#39;http&#39;
+  }
+
+  if $repo_nightly {
+    $nightly_ensure = &#39;present&#39;
+  } else {
+    $nightly_ensure = &#39;absent&#39;
   }
 
   $nginx_stage_cmd = &#39;/opt/ood/nginx_stage/sbin/nginx_stage&#39;
@@ -2633,6 +2674,7 @@ class openondemand (
     &#39;oidc_session_max_duration&#39;        =&gt; $oidc_session_max_duration,
     &#39;oidc_state_max_number_of_cookies&#39; =&gt; $oidc_state_max_number_of_cookies,
     &#39;oidc_settings&#39;                    =&gt; $oidc_settings,
+    &#39;dex_uri&#39;                          =&gt; $dex_uri,
     &#39;dex&#39;                              =&gt; $_dex_config,
   }.filter |$key, $value| { $value =~ NotUndef }
   $ood_portal_yaml = to_yaml($ood_portal_config)
@@ -2653,17 +2695,25 @@ class openondemand (
     &#39;dashboard_layout&#39; =&gt; $dashboard_layout,
   }.filter |$key, $value| { $value =~ NotUndef }
 
-  contain openondemand::repo
+  if $osfamily == &#39;RedHat&#39; {
+    contain openondemand::repo::rpm
+    Class[&#39;openondemand::repo::rpm&#39;] -&gt; Class[&#39;openondemand::install&#39;]
+  } elsif $osfamily == &#39;Debian&#39; {
+    contain openondemand::repo::apt
+    Class[&#39;openondemand::repo::apt&#39;] -&gt; Class[&#39;openondemand::install&#39;]
+  }
   contain openondemand::install
   contain openondemand::apache
   contain openondemand::config
   contain openondemand::service
 
-  Class[&#39;openondemand::repo&#39;]
-  -&gt;Class[&#39;openondemand::install&#39;]
+  Class[&#39;openondemand::install&#39;]
   -&gt;Class[&#39;openondemand::apache&#39;]
   -&gt;Class[&#39;openondemand::config&#39;]
   -&gt;Class[&#39;openondemand::service&#39;]
+
+  Class[&#39;openondemand::install&#39;] -&gt; Class[&#39;apache&#39;]
+  Class[&#39;openondemand::install&#39;] -&gt; Apache::Mod &lt;| |&gt;
 
   $_clusters.each |$name, $cluster| {
     openondemand::cluster { $name: * =&gt; $cluster }

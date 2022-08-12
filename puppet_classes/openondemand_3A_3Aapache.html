@@ -6,7 +6,7 @@
 <title>
   Puppet Class: openondemand::apache
   
-    &mdash; Documentation by YARD 0.9.27
+    &mdash; Documentation by YARD 0.9.28
   
 </title>
 
@@ -179,7 +179,18 @@
 86
 87
 88
-89</pre>
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/apache.pp', line 3</span>
@@ -207,25 +218,35 @@ class openondemand::apache {
     $package_prefix = &#39;&#39;
   }
 
+  if $facts[&#39;os&#39;][&#39;family&#39;] == &#39;RedHat&#39; {
+    $session_package = &quot;${package_prefix}mod_session&quot;
+    $proxy_html_package = &quot;${package_prefix}mod_proxy_html&quot;
+    $openidc_package = &quot;${package_prefix}mod_auth_openidc&quot;
+  } else {
+    $session_package = undef
+    $proxy_html_package = undef
+    $openidc_package = undef
+  }
+
   include ::apache::mod::ssl
   ::apache::mod { &#39;session&#39;:
-    package =&gt; &quot;${package_prefix}mod_session&quot;,
+    package =&gt; $session_package,
   }
   ::apache::mod { &#39;session_cookie&#39;:
-    package =&gt; &quot;${package_prefix}mod_session&quot;,
+    package =&gt; $session_package,
   }
   ::apache::mod { &#39;session_dbd&#39;:
-    package =&gt; &quot;${package_prefix}mod_session&quot;,
+    package =&gt; $session_package,
   }
   ::apache::mod { &#39;auth_form&#39;:
-    package =&gt; &quot;${package_prefix}mod_session&quot;,
+    package =&gt; $session_package,
   }
   # mod_request needed by mod_auth_form - should probably be a default module.
   ::apache::mod { &#39;request&#39;: }
   # xml2enc and proxy_html work around apache::mod::proxy_html lack of package name parameter
   ::apache::mod { &#39;xml2enc&#39;:}
   ::apache::mod { &#39;proxy_html&#39;:
-    package =&gt; &quot;${package_prefix}mod_proxy_html&quot;,
+    package =&gt; $proxy_html_package,
   }
   include ::apache::mod::proxy
   include ::apache::mod::proxy_http
@@ -236,10 +257,11 @@ class openondemand::apache {
   }
   ::apache::mod { &#39;lua&#39;: }
   include ::apache::mod::headers
+  include ::apache::mod::rewrite
 
   if $openondemand::auth_type in [&#39;dex&#39;,&#39;openid-connect&#39;] {
     ::apache::mod { &#39;auth_openidc&#39;:
-      package        =&gt; &quot;${package_prefix}mod_auth_openidc&quot;,
+      package        =&gt; $openidc_package,
       package_ensure =&gt; $openondemand::mod_auth_openidc_ensure,
     }
   }
