@@ -265,7 +265,7 @@ class openondemand::repo::rpm {
 
   if versioncmp($openondemand::osmajor, &#39;8&#39;) &gt;= 0 and $openondemand::manage_dependency_repos {
     package { &#39;nodejs&#39;:
-      ensure      =&gt; &#39;12&#39;,
+      ensure      =&gt; &#39;14&#39;,
       enable_only =&gt; true,
       provider    =&gt; &#39;dnfmodule&#39;,
     }

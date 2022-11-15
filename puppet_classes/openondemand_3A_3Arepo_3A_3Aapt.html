@@ -160,7 +160,7 @@ class openondemand::repo::apt {
 
   apt::source { &#39;nodesource&#39;:
     ensure   =&gt; &#39;present&#39;,
-    location =&gt; &#39;https://deb.nodesource.com/node_12.x&#39;,
+    location =&gt; &#39;https://deb.nodesource.com/node_14.x&#39;,
     repos    =&gt; &#39;main&#39;,
     release  =&gt; $facts[&#39;os&#39;][&#39;distro&#39;][&#39;codename&#39;],
     key      =&gt; {
