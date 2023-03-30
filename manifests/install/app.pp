@@ -18,6 +18,8 @@
 #   The git revision to checkout
 # @param path
 #   Path to app, defaults to `/var/www/ood/apps/sys/$name`
+# @param app_source
+#   The path to the directory to copy the application contents from
 # @param owner
 #   File owner of app
 # @param group
@@ -32,6 +34,7 @@ define openondemand::install::app (
   Optional[String] $git_repo = undef,
   Optional[String] $git_revision = undef,
   Optional[Stdlib::Absolutepath] $path = undef,
+  Optional[String] $app_source = undef,
   String $owner = 'root',
   String $group = 'root',
   String $mode  = '0755',
@@ -47,6 +50,11 @@ define openondemand::install::app (
     })
   }
 
+  if $app_source {
+    $_app_source = "${app_source}/${name}"
+    $recurse = 'remote'
+  }
+
   if $git_repo {
     vcsrepo { $_path:
       ensure   => $ensure,
@@ -59,10 +67,12 @@ define openondemand::install::app (
 
   if $ensure != 'absent' {
     file { $_path:
-      ensure => 'directory',
-      owner  => $owner,
-      group  => $group,
-      mode   => $mode,
+      ensure  => 'directory',
+      source  => $_app_source,
+      recurse => $recurse,
+      owner   => $owner,
+      group   => $group,
+      mode    => $mode,
     }
 
     if $manage_package and ! $git_repo {
