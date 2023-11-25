@@ -28,7 +28,7 @@ ondemand_portal: '<%= scope['openondemand::nginx_stage_ondemand_portal'] -%>'
 # NB: If this is not set then most apps will use default title "Open OnDemand"
 #
 #ondemand_title: null
-<% if scope['openondemand::nginx_stage_ondemand_title'] != nil -%>
+<% if scope['openondemand::nginx_stage_ondemand_title'] -%>
 ondemand_title: '<%= scope['openondemand::nginx_stage_ondemand_title'] -%>'
 <% end -%>
 
