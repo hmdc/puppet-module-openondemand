@@ -29,7 +29,7 @@ ondemand_portal: '<%= scope['openondemand::nginx_stage_ondemand_portal'] -%>'
 #
 #ondemand_title: null
 <% if scope['openondemand::nginx_stage_ondemand_title'] -%>
-ondemand_title: '<%= scope['openondemand::nginx_stage_ondemand_title'] -%>'
+ondemand_title: '<%= scope['openondemand::nginx_stage_ondemand_title'] %>'
 <% end -%>
 
 # Custom environment variables to set for the PUN environment
