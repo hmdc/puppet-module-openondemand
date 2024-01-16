@@ -57,6 +57,10 @@ class openondemand::apache {
   include apache::mod::proxy_http
   include apache::mod::proxy_connect
   include apache::mod::proxy_wstunnel
+
+  # ldap should probably be a default module.
+  include apache::mod::ldap
+  include apache::mod::authnz_ldap
   if $openondemand::auth_type == 'CAS' {
     include apache::mod::auth_cas
   }
