@@ -144,7 +144,7 @@ define openondemand::cluster (
   Optional[Integer] $xdmod_resource_id = undef,
   Hash $custom_config = {},
   Optional[Openondemand::Batch_connect] $batch_connect = undef,
-  Optional[String] $source = undef,
+  Optional[Stdlib::Filesource] $source = undef,
 ) {
   include openondemand
 
