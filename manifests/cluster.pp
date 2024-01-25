@@ -339,7 +339,7 @@ define openondemand::cluster (
     group   => $group,
     mode    => $mode,
     content => $content,
-    source => $source,
+    source  => $source,
     notify  => Class['openondemand::service'],
   }
 }
