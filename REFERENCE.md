@@ -545,7 +545,7 @@ Default value: `'/var/www/ood/public'`
 
 ##### <a name="-openondemand--logout_uri"></a>`logout_uri`
 
-Data type: `String`
+Data type: `Variant[String[1], Undef]`
 
 ood_portal.yml logout_uri
 
@@ -553,7 +553,7 @@ Default value: `'/logout'`
 
 ##### <a name="-openondemand--logout_redirect"></a>`logout_redirect`
 
-Data type: `String`
+Data type: `Variant[String[1], Undef]`
 
 ood_portal.yml logout_redirect
 
