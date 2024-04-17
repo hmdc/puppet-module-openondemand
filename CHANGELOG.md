@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v5.0.1](https://github.com/osc/puppet-module-openondemand/tree/v5.0.1) (2024-04-17)
+
+[Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v5.0.0...v5.0.1)
+
+### Fixed
+
+- Allow undef for logout\_uri and logout\_redirect [\#157](https://github.com/OSC/puppet-module-openondemand/pull/157) ([abujeda](https://github.com/abujeda))
+
 ## [v5.0.0](https://github.com/osc/puppet-module-openondemand/tree/v5.0.0) (2024-02-13)
 
 [Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v4.5.0...v5.0.0)
