@@ -35,7 +35,6 @@ class openondemand::repo::rpm (
     baseurl         => $openondemand::repo_nightly_baseurl,
     gpgcheck        => $gpgcheck,
     repo_gpgcheck   => $repo_gpgcheck,
-    repo_gpgcheck   => '1',
     gpgkey          => $openondemand::repo_gpgkey,
     metadata_expire => '1',
     priority        => $openondemand::repo_priority,
