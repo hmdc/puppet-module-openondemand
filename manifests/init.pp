@@ -6,6 +6,10 @@
 #   The baseurl prefix for OnDemand repo
 # @param repo_gpgkey
 #   The URL for OnDemand repo GPG key
+# @param repo_gpgcheck
+#   Boolean to enable or disable the GPG check for the OnDemand repo. Defaults to enabled
+# @param repo_repogpgcheck
+#    Boolean to enable or disable the repo GPG check for the OnDemand repo. Defaults to enabled
 # @param repo_proxy
 #   The URL for proxy for OnDemand repo
 # @param repo_priority
@@ -247,6 +251,8 @@ class openondemand (
   $repo_baseurl_prefix = 'https://yum.osc.edu/ondemand',
   Variant[Stdlib::HTTPSUrl, Stdlib::HTTPUrl, Stdlib::Absolutepath]
   $repo_gpgkey = 'https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand-SHA512',
+  Variant[Boolean, Enum['1','0', 'yes', 'no']] $repo_gpgcheck = '1',
+  Variant[Boolean, Enum['1','0', 'yes', 'no']] $repo_repogpgcheck = '1',
   Optional[String[1]] $repo_proxy = undef,
   Integer[1,99] $repo_priority = 99,
   Optional[Boolean] $repo_module_hotfixes = undef,
