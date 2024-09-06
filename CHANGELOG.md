@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v5.1.0](https://github.com/osc/puppet-module-openondemand/tree/v5.1.0) (2024-09-06)
+
+[Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v5.0.1...v5.1.0)
+
+### Added
+
+- Added support to configure the GPG check for the OnDemand repo [\#159](https://github.com/OSC/puppet-module-openondemand/pull/159) ([abujeda](https://github.com/abujeda))
+
+### Fixed
+
+- Don't wrap yaml lines for confs [\#160](https://github.com/OSC/puppet-module-openondemand/pull/160) ([mattmix](https://github.com/mattmix))
+
 ## [v5.0.1](https://github.com/osc/puppet-module-openondemand/tree/v5.0.1) (2024-04-17)
 
 [Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v5.0.0...v5.0.1)
@@ -273,10 +285,6 @@ All notable changes to this project will be documented in this file. The format 
 ## [v2.2.0](https://github.com/osc/puppet-module-openondemand/tree/v2.2.0) (2021-06-03)
 
 [Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v2.1.0...v2.2.0)
-
-### Added
-
-- Support pinned apps, dashboard layout and ondemand.d configuration files [\#55](https://github.com/OSC/puppet-module-openondemand/pull/55) ([treydock](https://github.com/treydock))
 
 ## [v2.1.0](https://github.com/osc/puppet-module-openondemand/tree/v2.1.0) (2021-05-26)
 

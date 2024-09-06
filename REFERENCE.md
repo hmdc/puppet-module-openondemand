@@ -203,7 +203,7 @@ Default value: `'https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand-SHA512'`
 
 Data type: `Variant[Boolean, Enum['1','0', 'yes', 'no']]`
 
-Boolean to enable or disable the GPG check for the OnDemand repo
+Boolean to enable or disable the GPG check for the OnDemand repo. Defaults to enabled
 
 Default value: `'1'`
 
@@ -211,7 +211,7 @@ Default value: `'1'`
 
 Data type: `Variant[Boolean, Enum['1','0', 'yes', 'no']]`
 
-Boolean to enable or disable the repo GPG check for the OnDemand repo
+Boolean to enable or disable the repo GPG check for the OnDemand repo. Defaults to enabled
 
 Default value: `'1'`
 
