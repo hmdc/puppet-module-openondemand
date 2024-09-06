@@ -58,6 +58,8 @@ The following parameters are available in the `openondemand` class:
 * [`repo_release`](#-openondemand--repo_release)
 * [`repo_baseurl_prefix`](#-openondemand--repo_baseurl_prefix)
 * [`repo_gpgkey`](#-openondemand--repo_gpgkey)
+* [`repo_gpgcheck`](#-openondemand--repo_gpgcheck)
+* [`repo_repogpgcheck`](#-openondemand--repo_repogpgcheck)
 * [`repo_proxy`](#-openondemand--repo_proxy)
 * [`repo_priority`](#-openondemand--repo_priority)
 * [`repo_module_hotfixes`](#-openondemand--repo_module_hotfixes)
@@ -196,6 +198,22 @@ Data type: `Variant[Stdlib::HTTPSUrl, Stdlib::HTTPUrl, Stdlib::Absolutepath]`
 The URL for OnDemand repo GPG key
 
 Default value: `'https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand-SHA512'`
+
+##### <a name="-openondemand--repo_gpgcheck"></a>`repo_gpgcheck`
+
+Data type: `Variant[Boolean, Enum['1','0', 'yes', 'no']]`
+
+Boolean to enable or disable the GPG check for the OnDemand repo
+
+Default value: `'1'`
+
+##### <a name="-openondemand--repo_repogpgcheck"></a>`repo_repogpgcheck`
+
+Data type: `Variant[Boolean, Enum['1','0', 'yes', 'no']]`
+
+Boolean to enable or disable the repo GPG check for the OnDemand repo
+
+Default value: `'1'`
 
 ##### <a name="-openondemand--repo_proxy"></a>`repo_proxy`
 
