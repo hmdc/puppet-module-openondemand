@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v5.2.0](https://github.com/osc/puppet-module-openondemand/tree/v5.2.0) (2024-10-16)
+
+[Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v5.1.0...v5.2.0)
+
+### Added
+
+- Support Ubuntu 24.04 [\#163](https://github.com/OSC/puppet-module-openondemand/pull/163) ([treydock](https://github.com/treydock))
+- Remove EL7 support [\#161](https://github.com/OSC/puppet-module-openondemand/pull/161) ([treydock](https://github.com/treydock))
+
 ## [v5.1.0](https://github.com/osc/puppet-module-openondemand/tree/v5.1.0) (2024-09-06)
 
 [Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v5.0.1...v5.1.0)
@@ -277,10 +286,6 @@ All notable changes to this project will be documented in this file. The format 
 ## [v2.3.0](https://github.com/osc/puppet-module-openondemand/tree/v2.3.0) (2021-06-15)
 
 [Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v2.2.0...v2.3.0)
-
-### Added
-
-- Support nginx\_stage passenger\_pool\_idle\_time and passenger\_options [\#58](https://github.com/OSC/puppet-module-openondemand/pull/58) ([treydock](https://github.com/treydock))
 
 ## [v2.2.0](https://github.com/osc/puppet-module-openondemand/tree/v2.2.0) (2021-06-03)
 
