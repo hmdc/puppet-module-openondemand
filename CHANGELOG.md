@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v6.0.0](https://github.com/osc/puppet-module-openondemand/tree/v6.0.0) (2024-10-16)
+
+[Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v5.2.0...v6.0.0)
+
+### Changed
+
+- Require stdlib \>= 9.x [\#165](https://github.com/OSC/puppet-module-openondemand/pull/165) ([treydock](https://github.com/treydock))
+
 ## [v5.2.0](https://github.com/osc/puppet-module-openondemand/tree/v5.2.0) (2024-10-16)
 
 [Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v5.1.0...v5.2.0)
@@ -271,17 +279,9 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v2.4.0...v2.4.1)
 
-### Fixed
-
-- Ensure sudo rpmnew and rpmsave are removed in idempotent fasion [\#61](https://github.com/OSC/puppet-module-openondemand/pull/61) ([treydock](https://github.com/treydock))
-
 ## [v2.4.0](https://github.com/osc/puppet-module-openondemand/tree/v2.4.0) (2021-07-14)
 
 [Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v2.3.0...v2.4.0)
-
-### Added
-
-- Ensure kubectl sudo commands are not logged [\#60](https://github.com/OSC/puppet-module-openondemand/pull/60) ([treydock](https://github.com/treydock))
 
 ## [v2.3.0](https://github.com/osc/puppet-module-openondemand/tree/v2.3.0) (2021-06-15)
 
