@@ -124,6 +124,7 @@ The following parameters are available in the `openondemand` class:
 * [`oidc_client_secret`](#-openondemand--oidc_client_secret)
 * [`oidc_remote_user_claim`](#-openondemand--oidc_remote_user_claim)
 * [`oidc_scope`](#-openondemand--oidc_scope)
+* [`oidc_crypto_passphrase`](#-openondemand--oidc_crypto_passphrase)
 * [`oidc_session_inactivity_timeout`](#-openondemand--oidc_session_inactivity_timeout)
 * [`oidc_session_max_duration`](#-openondemand--oidc_session_max_duration)
 * [`oidc_state_max_number_of_cookies`](#-openondemand--oidc_state_max_number_of_cookies)
@@ -728,6 +729,14 @@ Data type: `String`
 OIDC scopes
 
 Default value: `'openid profile email'`
+
+##### <a name="-openondemand--oidc_crypto_passphrase"></a>`oidc_crypto_passphrase`
+
+Data type: `Optional[String]`
+
+OIDC crypto passphrase
+
+Default value: `undef`
 
 ##### <a name="-openondemand--oidc_session_inactivity_timeout"></a>`oidc_session_inactivity_timeout`
 

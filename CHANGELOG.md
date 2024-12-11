@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v6.1.0](https://github.com/osc/puppet-module-openondemand/tree/v6.1.0) (2024-12-11)
+
+[Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v6.0.0...v6.1.0)
+
+### Added
+
+- Add oidc\_crypto\_passphrase parameter [\#168](https://github.com/OSC/puppet-module-openondemand/pull/168) ([treydock](https://github.com/treydock))
+
 ## [v6.0.0](https://github.com/osc/puppet-module-openondemand/tree/v6.0.0) (2024-10-16)
 
 [Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v5.2.0...v6.0.0)
@@ -263,17 +271,9 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v2.5.0...v2.6.0)
 
-### Added
-
-- Support cluster custom\_config [\#63](https://github.com/OSC/puppet-module-openondemand/pull/63) ([treydock](https://github.com/treydock))
-
 ## [v2.5.0](https://github.com/osc/puppet-module-openondemand/tree/v2.5.0) (2021-07-29)
 
 [Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v2.4.1...v2.5.0)
-
-### Added
-
-- Support K8 auto\_supplemental\_groups [\#62](https://github.com/OSC/puppet-module-openondemand/pull/62) ([treydock](https://github.com/treydock))
 
 ## [v2.4.1](https://github.com/osc/puppet-module-openondemand/tree/v2.4.1) (2021-07-21)
 
