@@ -74,7 +74,6 @@ The following parameters are available in the `openondemand` class:
 * [`install_apps`](#-openondemand--install_apps)
 * [`declare_apache`](#-openondemand--declare_apache)
 * [`apache_user`](#-openondemand--apache_user)
-* [`apache_scls`](#-openondemand--apache_scls)
 * [`generator_insecure`](#-openondemand--generator_insecure)
 * [`listen_addr_port`](#-openondemand--listen_addr_port)
 * [`servername`](#-openondemand--servername)
@@ -83,6 +82,7 @@ The following parameters are available in the `openondemand` class:
 * [`disable_logs`](#-openondemand--disable_logs)
 * [`logroot`](#-openondemand--logroot)
 * [`use_rewrites`](#-openondemand--use_rewrites)
+* [`http_redirect_host`](#-openondemand--http_redirect_host)
 * [`use_maintenance`](#-openondemand--use_maintenance)
 * [`maintenance_ip_allowlist`](#-openondemand--maintenance_ip_allowlist)
 * [`maintenance_source`](#-openondemand--maintenance_source)
@@ -138,7 +138,6 @@ The following parameters are available in the `openondemand` class:
 * [`nginx_stage_ondemand_title`](#-openondemand--nginx_stage_ondemand_title)
 * [`nginx_stage_pun_custom_env`](#-openondemand--nginx_stage_pun_custom_env)
 * [`nginx_stage_app_root`](#-openondemand--nginx_stage_app_root)
-* [`nginx_stage_scl_env`](#-openondemand--nginx_stage_scl_env)
 * [`nginx_stage_app_request_regex`](#-openondemand--nginx_stage_app_request_regex)
 * [`nginx_stage_min_uid`](#-openondemand--nginx_stage_min_uid)
 * [`nginx_stage_passenger_pool_idle_time`](#-openondemand--nginx_stage_passenger_pool_idle_time)
@@ -182,7 +181,7 @@ Data type: `String`
 
 The release of OnDemand repo
 
-Default value: `'3.1'`
+Default value: `'4.0'`
 
 ##### <a name="-openondemand--repo_baseurl_prefix"></a>`repo_baseurl_prefix`
 
@@ -328,14 +327,6 @@ Name of the Apache user
 
 Default value: `'apache'`
 
-##### <a name="-openondemand--apache_scls"></a>`apache_scls`
-
-Data type: `String`
-
-SCLs to load when starting Apache service
-
-Default value: `'httpd24'`
-
 ##### <a name="-openondemand--generator_insecure"></a>`generator_insecure`
 
 Data type: `Boolean`
@@ -401,6 +392,14 @@ Data type: `Boolean`
 ood_portal.yml use_rewrites
 
 Default value: `true`
+
+##### <a name="-openondemand--http_redirect_host"></a>`http_redirect_host`
+
+Data type: `String`
+
+ood_portal.yml http_redirect_host
+
+Default value: `'%{HTTP_HOST}'`
 
 ##### <a name="-openondemand--use_maintenance"></a>`use_maintenance`
 
@@ -842,14 +841,6 @@ Data type: `Openondemand::Nginx_stage_namespace_config`
 nginx_stage.yml app_root
 
 Default value: `{}`
-
-##### <a name="-openondemand--nginx_stage_scl_env"></a>`nginx_stage_scl_env`
-
-Data type: `String`
-
-nginx_stage.yml scl_env
-
-Default value: `'ondemand'`
 
 ##### <a name="-openondemand--nginx_stage_app_request_regex"></a>`nginx_stage_app_request_regex`
 
