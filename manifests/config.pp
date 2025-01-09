@@ -94,6 +94,15 @@ class openondemand::config {
     mode   => '0755',
   }
 
+  if $openondemand::maintenance_enabled != undef {
+    file { "/etc/ood/maintenance.enable":
+      ensure  => $openondemand::maintenance_enabled ? { true => 'file', false => 'absent' },
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+    }
+  }
+
   file { '/etc/ood/config':
     ensure => 'directory',
     owner  => 'root',
