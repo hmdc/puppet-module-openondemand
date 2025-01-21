@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v7.1.0](https://github.com/osc/puppet-module-openondemand/tree/v7.1.0) (2025-01-21)
+
+[Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v7.0.0...v7.1.0)
+
+### Added
+
+- Added configuration to enable/disable maintenance with Puppet [\#170](https://github.com/OSC/puppet-module-openondemand/pull/170) ([abujeda](https://github.com/abujeda))
+
 ## [v7.0.0](https://github.com/osc/puppet-module-openondemand/tree/v7.0.0) (2025-01-09)
 
 [Full Changelog](https://github.com/osc/puppet-module-openondemand/compare/v6.1.0...v7.0.0)

@@ -87,6 +87,7 @@ The following parameters are available in the `openondemand` class:
 * [`maintenance_ip_allowlist`](#-openondemand--maintenance_ip_allowlist)
 * [`maintenance_source`](#-openondemand--maintenance_source)
 * [`maintenance_content`](#-openondemand--maintenance_content)
+* [`maintenance_enabled`](#-openondemand--maintenance_enabled)
 * [`security_csp_frame_ancestors`](#-openondemand--security_csp_frame_ancestors)
 * [`security_strict_transport`](#-openondemand--security_strict_transport)
 * [`lua_root`](#-openondemand--lua_root)
@@ -430,6 +431,14 @@ Default value: `undef`
 Data type: `Optional[String]`
 
 Content for maintenance index.html
+
+Default value: `undef`
+
+##### <a name="-openondemand--maintenance_enabled"></a>`maintenance_enabled`
+
+Data type: `Optional[Boolean]`
+
+Enable maintenance mode in OOD
 
 Default value: `undef`
 
