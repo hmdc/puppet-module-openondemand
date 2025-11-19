@@ -62,7 +62,7 @@ define openondemand::install::app (
       source     => $git_repo,
       revision   => $git_revision,
       provider   => 'git',
-      http_proxy => lookup($openondemand::http_proxy),
+      http_proxy => $openondemand::http_proxy,
       require    => Package['ondemand'],
     }
   }
