@@ -34,7 +34,7 @@ define openondemand::install::app (
   Optional[String] $git_repo           = undef,
   Optional[String] $git_revision       = undef,
   Optional[String] $source             = undef,
-  Optional[String] $proxy              = undef,
+  Optional[String] $proxy              = $openondemand::http_proxy,
   Optional[Stdlib::Absolutepath] $path = undef,
   String $owner                        = 'root',
   String $group                        = 'root',

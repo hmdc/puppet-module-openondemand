@@ -239,6 +239,8 @@
 #   Path to the source for public files
 # @param manage_logrotate
 #   Boolean that allows disabling management of logrotate
+# @param http_proxy
+#   http_proxy, if any, used to download git repos via vcsrepo
 #
 class openondemand (
   # repos
@@ -261,6 +263,7 @@ class openondemand (
   String $ondemand_dex_package_ensure             = 'present',
   String $mod_auth_openidc_ensure                 = 'present',
   Hash $install_apps                              = {},
+  String $http_proxy                              = undef,
 
   # Apache
   Boolean $declare_apache = true,
