@@ -28,16 +28,17 @@
 #   File mode for app
 #
 define openondemand::install::app (
-  String $ensure = 'present',
-  String $package = "ondemand-${name}",
-  Boolean $manage_package = true,
-  Optional[String] $git_repo = undef,
-  Optional[String] $git_revision = undef,
-  Optional[String] $source = undef,
+  String $ensure                       = 'present',
+  String $package                      = "ondemand-${name}",
+  Boolean $manage_package              = true,
+  Optional[String] $git_repo           = undef,
+  Optional[String] $git_revision       = undef,
+  Optional[String] $source             = undef,
+  Optional[String] $proxy              = undef,
   Optional[Stdlib::Absolutepath] $path = undef,
-  String $owner = 'root',
-  String $group = 'root',
-  String $mode  = '0755',
+  String $owner                        = 'root',
+  String $group                        = 'root',
+  String $mode                         = '0755',
 ) {
   include openondemand
 
@@ -58,11 +59,12 @@ define openondemand::install::app (
 
   if $git_repo {
     vcsrepo { $_path:
-      ensure   => $ensure,
-      source   => $git_repo,
-      revision => $git_revision,
-      provider => 'git',
-      require  => Package['ondemand'],
+      ensure     => $ensure,
+      source     => $git_repo,
+      revision   => $git_revision,
+      provider   => 'git',
+      http_proxy => $proxy,
+      require    => Package['ondemand'],
     }
   }
 
