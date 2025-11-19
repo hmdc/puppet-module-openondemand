@@ -263,7 +263,7 @@ class openondemand (
   String $ondemand_dex_package_ensure             = 'present',
   String $mod_auth_openidc_ensure                 = 'present',
   Hash $install_apps                              = {},
-  String $http_proxy                              = undef,
+  Optional[String] $http_proxy                    = undef,
 
   # Apache
   Boolean $declare_apache = true,
