@@ -58,6 +58,8 @@ The following parameters are available in the `openondemand` class:
 * [`repo_release`](#-openondemand--repo_release)
 * [`repo_baseurl_prefix`](#-openondemand--repo_baseurl_prefix)
 * [`repo_gpgkey`](#-openondemand--repo_gpgkey)
+* [`repo_gpgcheck`](#-openondemand--repo_gpgcheck)
+* [`repo_repogpgcheck`](#-openondemand--repo_repogpgcheck)
 * [`repo_proxy`](#-openondemand--repo_proxy)
 * [`repo_priority`](#-openondemand--repo_priority)
 * [`repo_module_hotfixes`](#-openondemand--repo_module_hotfixes)
@@ -72,7 +74,6 @@ The following parameters are available in the `openondemand` class:
 * [`install_apps`](#-openondemand--install_apps)
 * [`declare_apache`](#-openondemand--declare_apache)
 * [`apache_user`](#-openondemand--apache_user)
-* [`apache_scls`](#-openondemand--apache_scls)
 * [`generator_insecure`](#-openondemand--generator_insecure)
 * [`listen_addr_port`](#-openondemand--listen_addr_port)
 * [`servername`](#-openondemand--servername)
@@ -81,10 +82,12 @@ The following parameters are available in the `openondemand` class:
 * [`disable_logs`](#-openondemand--disable_logs)
 * [`logroot`](#-openondemand--logroot)
 * [`use_rewrites`](#-openondemand--use_rewrites)
+* [`http_redirect_host`](#-openondemand--http_redirect_host)
 * [`use_maintenance`](#-openondemand--use_maintenance)
 * [`maintenance_ip_allowlist`](#-openondemand--maintenance_ip_allowlist)
 * [`maintenance_source`](#-openondemand--maintenance_source)
 * [`maintenance_content`](#-openondemand--maintenance_content)
+* [`maintenance_enabled`](#-openondemand--maintenance_enabled)
 * [`security_csp_frame_ancestors`](#-openondemand--security_csp_frame_ancestors)
 * [`security_strict_transport`](#-openondemand--security_strict_transport)
 * [`lua_root`](#-openondemand--lua_root)
@@ -122,6 +125,7 @@ The following parameters are available in the `openondemand` class:
 * [`oidc_client_secret`](#-openondemand--oidc_client_secret)
 * [`oidc_remote_user_claim`](#-openondemand--oidc_remote_user_claim)
 * [`oidc_scope`](#-openondemand--oidc_scope)
+* [`oidc_crypto_passphrase`](#-openondemand--oidc_crypto_passphrase)
 * [`oidc_session_inactivity_timeout`](#-openondemand--oidc_session_inactivity_timeout)
 * [`oidc_session_max_duration`](#-openondemand--oidc_session_max_duration)
 * [`oidc_state_max_number_of_cookies`](#-openondemand--oidc_state_max_number_of_cookies)
@@ -135,7 +139,6 @@ The following parameters are available in the `openondemand` class:
 * [`nginx_stage_ondemand_title`](#-openondemand--nginx_stage_ondemand_title)
 * [`nginx_stage_pun_custom_env`](#-openondemand--nginx_stage_pun_custom_env)
 * [`nginx_stage_app_root`](#-openondemand--nginx_stage_app_root)
-* [`nginx_stage_scl_env`](#-openondemand--nginx_stage_scl_env)
 * [`nginx_stage_app_request_regex`](#-openondemand--nginx_stage_app_request_regex)
 * [`nginx_stage_min_uid`](#-openondemand--nginx_stage_min_uid)
 * [`nginx_stage_passenger_pool_idle_time`](#-openondemand--nginx_stage_passenger_pool_idle_time)
@@ -179,7 +182,7 @@ Data type: `String`
 
 The release of OnDemand repo
 
-Default value: `'3.1'`
+Default value: `'4.0'`
 
 ##### <a name="-openondemand--repo_baseurl_prefix"></a>`repo_baseurl_prefix`
 
@@ -196,6 +199,22 @@ Data type: `Variant[Stdlib::HTTPSUrl, Stdlib::HTTPUrl, Stdlib::Absolutepath]`
 The URL for OnDemand repo GPG key
 
 Default value: `'https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand-SHA512'`
+
+##### <a name="-openondemand--repo_gpgcheck"></a>`repo_gpgcheck`
+
+Data type: `Variant[Boolean, Enum['1','0', 'yes', 'no']]`
+
+Boolean to enable or disable the GPG check for the OnDemand repo. Defaults to enabled
+
+Default value: `'1'`
+
+##### <a name="-openondemand--repo_repogpgcheck"></a>`repo_repogpgcheck`
+
+Data type: `Variant[Boolean, Enum['1','0', 'yes', 'no']]`
+
+Boolean to enable or disable the repo GPG check for the OnDemand repo. Defaults to enabled
+
+Default value: `'1'`
 
 ##### <a name="-openondemand--repo_proxy"></a>`repo_proxy`
 
@@ -309,14 +328,6 @@ Name of the Apache user
 
 Default value: `'apache'`
 
-##### <a name="-openondemand--apache_scls"></a>`apache_scls`
-
-Data type: `String`
-
-SCLs to load when starting Apache service
-
-Default value: `'httpd24'`
-
 ##### <a name="-openondemand--generator_insecure"></a>`generator_insecure`
 
 Data type: `Boolean`
@@ -383,6 +394,14 @@ ood_portal.yml use_rewrites
 
 Default value: `true`
 
+##### <a name="-openondemand--http_redirect_host"></a>`http_redirect_host`
+
+Data type: `String`
+
+ood_portal.yml http_redirect_host
+
+Default value: `'%{HTTP_HOST}'`
+
 ##### <a name="-openondemand--use_maintenance"></a>`use_maintenance`
 
 Data type: `Boolean`
@@ -412,6 +431,14 @@ Default value: `undef`
 Data type: `Optional[String]`
 
 Content for maintenance index.html
+
+Default value: `undef`
+
+##### <a name="-openondemand--maintenance_enabled"></a>`maintenance_enabled`
+
+Data type: `Optional[Boolean]`
+
+Enable maintenance mode in OOD
 
 Default value: `undef`
 
@@ -711,6 +738,14 @@ OIDC scopes
 
 Default value: `'openid profile email'`
 
+##### <a name="-openondemand--oidc_crypto_passphrase"></a>`oidc_crypto_passphrase`
+
+Data type: `Optional[String]`
+
+OIDC crypto passphrase
+
+Default value: `undef`
+
 ##### <a name="-openondemand--oidc_session_inactivity_timeout"></a>`oidc_session_inactivity_timeout`
 
 Data type: `Integer`
@@ -815,14 +850,6 @@ Data type: `Openondemand::Nginx_stage_namespace_config`
 nginx_stage.yml app_root
 
 Default value: `{}`
-
-##### <a name="-openondemand--nginx_stage_scl_env"></a>`nginx_stage_scl_env`
-
-Data type: `String`
-
-nginx_stage.yml scl_env
-
-Default value: `'ondemand'`
 
 ##### <a name="-openondemand--nginx_stage_app_request_regex"></a>`nginx_stage_app_request_regex`
 
