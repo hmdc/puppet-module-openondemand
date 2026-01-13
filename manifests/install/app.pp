@@ -28,16 +28,16 @@
 #   File mode for app
 #
 define openondemand::install::app (
-  String $ensure = 'present',
-  String $package = "ondemand-${name}",
-  Boolean $manage_package = true,
-  Optional[String] $git_repo = undef,
-  Optional[String] $git_revision = undef,
-  Optional[String] $source = undef,
+  String $ensure                       = 'present',
+  String $package                      = "ondemand-${name}",
+  Boolean $manage_package              = true,
+  Optional[String] $git_repo           = undef,
+  Optional[String] $git_revision       = undef,
+  Optional[String] $source             = undef,
   Optional[Stdlib::Absolutepath] $path = undef,
-  String $owner = 'root',
-  String $group = 'root',
-  String $mode  = '0755',
+  String $owner                        = 'root',
+  String $group                        = 'root',
+  String $mode                         = '0755',
 ) {
   include openondemand
 

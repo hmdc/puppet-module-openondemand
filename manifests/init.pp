@@ -12,6 +12,10 @@
 #    Boolean to enable or disable the repo GPG check for the OnDemand repo. Defaults to enabled
 # @param repo_proxy
 #   The URL for proxy for OnDemand repo
+# @param repo_gpgcheck
+#   Whether to check GPG signature for OnDemand repo
+# @param pkg_gpgcheck
+#   Whether to check GPG signature for OnDemand packages
 # @param repo_priority
 #   The priority of the OnDemand repo
 # @param repo_module_hotfixes
@@ -259,6 +263,8 @@ class openondemand (
   Variant[Boolean, Enum['1','0', 'yes', 'no']] $repo_repogpgcheck = '1',
   Optional[String[1]] $repo_proxy = undef,
   Integer[1,99] $repo_priority = 99,
+  Integer $pkg_gpgcheck = 1,
+  Integer $repo_gpgcheck = 1,
   Optional[Boolean] $repo_module_hotfixes = undef,
   String $repo_exclude = 'absent',
   Boolean $manage_dependency_repos = true,
@@ -271,6 +277,7 @@ class openondemand (
   String $ondemand_dex_package_ensure             = 'present',
   String $mod_auth_openidc_ensure                 = 'present',
   Hash $install_apps                              = {},
+  Optional[String] $git_proxy                     = $repo_proxy,
 
   # Apache
   Boolean $declare_apache = true,
